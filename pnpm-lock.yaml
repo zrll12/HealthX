@@ -75,6 +75,9 @@ importers:
       '@react-types/shared':
         specifier: 3.25.0
         version: 3.25.0(react@18.3.1)
+      '@tauri-apps/api':
+        specifier: ^2.2.0
+        version: 2.2.0
       '@tauri-apps/cli':
         specifier: ^2.2.7
         version: 2.2.7
@@ -876,6 +879,9 @@ packages:
 
   '@tanstack/virtual-core@3.11.3':
     resolution: {integrity: sha512-v2mrNSnMwnPJtcVqNvV0c5roGCBqeogN8jDtgtuHCphdwBasOZ17x8UV8qpHUh+u0MLfX43c0uUHKje0s+Zb0w==}
+
+  '@tauri-apps/api@2.2.0':
+    resolution: {integrity: sha512-R8epOeZl1eJEl603aUMIGb4RXlhPjpgxbGVEaqY+0G5JG9vzV/clNlzTeqc+NLYXVqXcn8mb4c5b9pJIUDEyAg==}
 
   '@tauri-apps/cli-darwin-arm64@2.2.7':
     resolution: {integrity: sha512-54kcpxZ3X1Rq+pPTzk3iIcjEVY4yv493uRx/80rLoAA95vAC0c//31Whz75UVddDjJfZvXlXZ3uSZ+bnCOnt0A==}
@@ -3498,6 +3504,8 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@tanstack/virtual-core@3.11.3': {}
+
+  '@tauri-apps/api@2.2.0': {}
 
   '@tauri-apps/cli-darwin-arm64@2.2.7':
     optional: true
