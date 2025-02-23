@@ -1,6 +1,6 @@
 name: app
 options:
-  bundleIdPrefix: com.tauri.dev
+  bundleIdPrefix: cn.health-x
   deploymentTarget:
     iOS: 13.0
 fileGroups: [../../src]
@@ -11,7 +11,7 @@ settingGroups:
   app:
     base:
       PRODUCT_NAME: HealthX
-      PRODUCT_BUNDLE_IDENTIFIER: com.tauri.dev
+      PRODUCT_BUNDLE_IDENTIFIER: cn.health-x
 targetTemplates:
   app:
     type: application
