@@ -1,56 +1,39 @@
-import { Link } from "@heroui/link";
-import { Snippet } from "@heroui/snippet";
-import { Code } from "@heroui/code";
-import { button as buttonStyles } from "@heroui/theme";
+import "@/styles/globals.css";
+import "@mantine/core/styles.css";
+import { Stack, Group, Box } from "@mantine/core";
+import { Divider } from "@heroui/divider";
+import React from "react";
 
-import { siteConfig } from "@/config/site";
-import { title, subtitle } from "@/components/primitives";
-import { GithubIcon } from "@/components/icons";
+function formatDate(date: Date): string {
+  const daysOfWeek = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"];
+  const today = new Date();
+  const yesterday = new Date(today);
+  const tomorrow = new Date(today);
 
-export default function Home() {
+  yesterday.setDate(today.getDate() - 1);
+  tomorrow.setDate(today.getDate() + 1);
+
+  const isSameDay = (d1: Date, d2: Date) => d1.toDateString() === d2.toDateString();
+
+  if (isSameDay(date, today)) {
+    return `今天 ${date.getMonth() + 1}月${date.getDate()}日`;
+  } else if (isSameDay(date, yesterday)) {
+    return `昨天 ${date.getMonth() + 1}月${date.getDate()}日`;
+  } else if (isSameDay(date, tomorrow)) {
+    return `明天 ${date.getMonth() + 1}月${date.getDate()}日`;
+  } else {
+    return `${date.getMonth() + 1}月${date.getDate()}日 ${daysOfWeek[date.getDay()]}`;
+  }
+}
+
+
+export default function HomePage() {
   return (
-    <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-      <div className="inline-block max-w-xl text-center justify-center">
-        <span className={title()}>Make&nbsp;</span>
-        <span className={title({ color: "violet" })}>beautiful&nbsp;</span>
-        <br />
-        <span className={title()}>
-          websites regardless of your design experience.
-        </span>
-        <div className={subtitle({ class: "mt-4" })}>
-          Beautiful, fast and modern React UI library.
-        </div>
-      </div>
-
-      <div className="flex gap-3">
-        <Link
-          isExternal
-          className={buttonStyles({
-            color: "primary",
-            radius: "full",
-            variant: "shadow",
-          })}
-          href={siteConfig.links.docs}
-        >
-          Documentation
-        </Link>
-        <Link
-          isExternal
-          className={buttonStyles({ variant: "bordered", radius: "full" })}
-          href={siteConfig.links.github}
-        >
-          <GithubIcon size={20} />
-          GitHub
-        </Link>
-      </div>
-
-      <div className="mt-8">
-        <Snippet hideCopyButton hideSymbol variant="bordered">
-          <span>
-            Get started by editing <Code color="primary">app/page.tsx</Code>
-          </span>
-        </Snippet>
-      </div>
-    </section>
+    <Stack gap="lg">
+      <Group justify="space-around" align="center"> {/* Desktop header */}
+        {formatDate(new Date())}
+      </Group>
+      <Divider />
+    </Stack>
   );
 }

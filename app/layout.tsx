@@ -1,66 +1,97 @@
+"use client";
+
 import "@/styles/globals.css";
-import { Metadata, Viewport } from "next";
-import { Link } from "@heroui/link";
-import clsx from "clsx";
+import "@mantine/core/styles.css";
+import React from "react";
+import {
+  AppShell,
+  ColorSchemeScript,
+  createTheme,
+  Group,
+  mantineHtmlProps,
+  MantineProvider,
+  Space, Stack
+} from "@mantine/core";
+import { HeroUIProvider } from "@heroui/system";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { useDisclosure } from "@mantine/hooks";
+import { ColorSchemeToggle } from "@/components/ColorSchemeToggle";
+import { Button } from "@heroui/button";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 
-import { Providers } from "./providers";
 
-import { siteConfig } from "@/config/site";
-import { fontSans } from "@/config/fonts";
-import { Navbar } from "@/components/navbar";
+const theme = createTheme({
+  /** Your theme override here */
+});
 
-export const metadata: Metadata = {
-  title: {
-    default: siteConfig.name,
-    template: `%s - ${siteConfig.name}`,
-  },
-  description: siteConfig.description,
-  icons: {
-    icon: "/favicon.ico",
-  },
-};
+const startYear = 2025;
+const currentYear = new Date().getFullYear();
+const displayYear = startYear === currentYear ? `${startYear}` : `${startYear}-${currentYear}`;
 
-export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
-};
-
-export default function RootLayout({
-  children,
-}: {
+export default function RootLayout({ children }: {
   children: React.ReactNode;
 }) {
+  const [opened, { toggle }] = useDisclosure();
+
   return (
-    <html suppressHydrationWarning lang="en">
-      <head />
-      <body
-        className={clsx(
-          "min-h-screen bg-background font-sans antialiased",
-          fontSans.variable,
-        )}
-      >
-        <Providers themeProps={{ attribute: "class", defaultTheme: "dark" }}>
-          <div className="relative flex flex-col h-screen">
-            <Navbar />
-            <main className="container mx-auto max-w-7xl pt-16 px-6 flex-grow">
-              {children}
-            </main>
-            <footer className="w-full flex items-center justify-center py-3">
-              <Link
-                isExternal
-                className="flex items-center gap-1 text-current"
-                href="https://github.com/zrll12/HealthX"
-                title="heroui.com homepage"
-              >
-                <span className="text-default-600">Powered by</span>
-                <p className="text-primary">Birdy & zrll</p>
-              </Link>
-            </footer>
-          </div>
-        </Providers>
-      </body>
+    <html {...mantineHtmlProps}>
+    <head>
+      <ColorSchemeScript />
+      <title>HealthX</title>
+    </head>
+    <body>
+    <div>
+      <MantineProvider theme={theme}>
+        <NextThemesProvider attribute="class">
+          <HeroUIProvider>
+            <AppShell
+              navbar={{ width: 300, breakpoint: "sm", collapsed: { mobile: !opened } }}
+              header={{ height: 50 }}
+              padding="md">
+              <AppShell.Header>
+                <Group visibleFrom="sm" justify="space-around" align="center" h={50}> {/* Desktop header */}
+                  <p className="font-bold">Health X</p>
+                </Group>
+                <Group hiddenFrom="sm" justify="space-between" align="center" h={50} w="98%"> {/* Mobile view */}
+                  <Space />
+                  <p className="font-bold">Health X</p>
+                  <Group gap="sm">
+                    <ColorSchemeToggle />
+                    <Button isIconOnly variant={"light"} onPress={toggle}>{opened ? <IconX /> : <IconMenu2 />}</Button>
+                  </Group>
+                </Group>
+              </AppShell.Header>
+              <AppShell.Navbar p="md">
+                <Stack h="100%" justify="space-between" visibleFrom="sm"> {/* Desktop header */}
+                  <Stack>
+                    {/* 这里可以添加其他导航项目 */}
+                  </Stack>
+                  <Group gap="sm" justify="flex-end" wrap="nowrap">
+                    <ColorSchemeToggle />
+                  </Group>
+                </Stack>
+                <Stack hiddenFrom="sm"> {/* Mobile view */}
+
+                </Stack>
+              </AppShell.Navbar>
+              <AppShell.Main>
+                <Stack h="100%" justify="space-between">
+                  <Stack>
+                    {children}
+                  </Stack>
+                </Stack>
+              </AppShell.Main>
+              <AppShell.Footer>
+                <Group justify="space-around" align="center" h={50}>
+                  <p>© {displayYear} Health X. All rights reserved.</p>
+                </Group>
+              </AppShell.Footer>
+            </AppShell>
+          </HeroUIProvider>
+        </NextThemesProvider>
+      </MantineProvider>
+    </div>
+    </body>
     </html>
   );
 }
